@@ -39,7 +39,6 @@ const sendErrorDev = (err, res) => {
   });
 };
 const sendErrorProd = (err, res) => {
-  console.error('ERROR', err);
   // Operational error: Trusted we can send message to client
   if (err.isOperational) {
     res.status(err.statusCode).json({
@@ -69,14 +68,14 @@ module.exports = (err, req, res, next) => {
   }
 
   if (process.env.NODE_ENV === 'production') {
-    let error = { ...err };
+    // console.log(err);
+    // let error = { ...err };
 
-    if (err.name === 'ValidationError') error = handleValidationErrorDB(error);
-    if (err.name === 'JsonWebTokenError') error = handleJWTError(error);
-    if (err.name === 'TokenExpiredError')
-      error = handleTokenExpiredError(error);
-    if (err.code === 11000) error = handleDuplicateFieldsDB(error);
-    if (err.message.includes('EBUSY')) error = handleFileBusyError(error);
-    sendErrorProd(error, res);
+    if (err.name === 'ValidationError') err = handleValidationErrorDB(err);
+    if (err.name === 'JsonWebTokenError') err = handleJWTError(err);
+    if (err.name === 'TokenExpiredError') err = handleTokenExpiredError(err);
+    if (err.code === 11000) err = handleDuplicateFieldsDB(err);
+    // if (err.message.includes('EBUSY')) error = handleFileBusyError(error);
+    sendErrorProd(err, res);
   }
 };
