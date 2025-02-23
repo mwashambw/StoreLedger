@@ -39,6 +39,7 @@ const sendErrorDev = (err, res) => {
   });
 };
 const sendErrorProd = (err, res) => {
+  console.error('ERROR', err);
   // Operational error: Trusted we can send message to client
   if (err.isOperational) {
     res.status(err.statusCode).json({
