@@ -35,7 +35,11 @@ app.use(cookieParser());
 app.use(
   cors({
     // This works only in dev env. Remember to include url for production
-    origin: 'http://localhost:5173',
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? 'https://store-ledger.vercel.app'
+        : 'http://localhost:5173',
+
     credentials: true, // Allow credentials (cookies) from the client.
   })
 );
