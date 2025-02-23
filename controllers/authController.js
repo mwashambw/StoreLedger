@@ -16,7 +16,7 @@ const createSendToken = (user, res, statusCode) => {
     ),
     httpOnly: true,
     sameSite: 'none',
-    domain: 'https://storeledger.onrender.com',
+    domain: 'storeledger.onrender.com',
     secure: process.env.NODE_ENV === 'production',
     // ...(process.env.NODE_ENV === 'production' ? { secure: true } : {}),
   });
