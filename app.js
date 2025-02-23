@@ -34,7 +34,6 @@ app.use(cookieParser());
 // CORS policy
 app.use(
   cors({
-    // This works only in dev env. Remember to include url for production
     origin:
       process.env.NODE_ENV === 'production'
         ? 'https://store-ledger.vercel.app'
