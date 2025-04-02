@@ -6,7 +6,7 @@ const OrderSchema = mongoose.Schema({
     default: new Date(),
     required: [true, 'Provide the date of recieving the item'],
   },
-  receiptVoucherNumber: { type: Number },
+  receiptVoucherNumber: { type: String },
   receivedFrom: {
     type: String,
     required: true,
@@ -30,7 +30,7 @@ const OrderSchema = mongoose.Schema({
         // },
       },
       issueVoucherNumber: {
-        type: Number,
+        type: String,
       },
       quantityTaken: {
         type: Number,
