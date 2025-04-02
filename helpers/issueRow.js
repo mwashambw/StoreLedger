@@ -6,8 +6,13 @@ const { writeCell } = require('./writeCell');
 exports.issueRow = (item) => {
   const { usageRecords, receivedQuantity, unitPrice } = item;
   return usageRecords.map((record) => {
-    const { dateTaken, issueVoucherNumber, quantityTaken, takenBy, balance } =
-      record;
+    const {
+      dateTaken,
+      issueVoucherNumber = '',
+      quantityTaken,
+      takenBy,
+      balance,
+    } = record;
     // const balance = receivedQuantity - quantityTaken;
 
     return new TableRow({

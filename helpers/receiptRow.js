@@ -6,7 +6,7 @@ const { writeCell } = require('./writeCell');
 exports.receiptRow = (item) => {
   const {
     recieveDate,
-    receiptVoucherNumber,
+    receiptVoucherNumber = '',
     receivedFrom,
     receivedQuantity,
     unitPrice,
