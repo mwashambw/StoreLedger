@@ -5,51 +5,64 @@ const { writeCell } = require('./writeCell');
 
 exports.issueRow = (item) => {
   const { usageRecords, receivedQuantity, unitPrice } = item;
-  return usageRecords
-    .sort((a, b) => new Date(a.dateTaken) - new Date(b.dateTaken))
-    .map((record) => {
-      const {
-        dateTaken,
-        issueVoucherNumber = '',
-        quantityTaken,
-        takenBy,
-        balance,
-      } = record;
-      // const balance = receivedQuantity - quantityTaken;
+  // Sorting by date
+  const usageRecordsDateSorted = usageRecords.sort(
+    (a, b) => new Date(a.dateTaken) - new Date(b.dateTaken)
+  );
 
-      return new TableRow({
-        children: [
-          // DATE
-          writeCell({ textValue: formatDate(dateTaken) }),
-          // RECEIPT OR ISSUE VOUCHER No.
-          writeCell({ textValue: issueVoucherNumber }),
-          // RECEIVED FROM OR ISSUE TO
-          writeCell({ textValue: takenBy }),
-          // RECEIPTS
-          writeCell({}),
-          writeCell({}),
-          writeCell({}),
-          // ISSUES
-          writeCell({ textValue: quantityTaken }),
-          writeCell({
-            textValue: formatCurrency(unitPrice),
-            alignmentType: 'right',
-          }),
-          writeCell({
-            textValue: formatCurrency(unitPrice * quantityTaken),
-            alignmentType: 'right',
-          }),
-          // BALANCE
-          writeCell({ textValue: balance === 0 ? '-' : balance }),
-          writeCell({
-            textValue:
-              balance === 0 ? '-' : formatCurrency(unitPrice * balance),
-            alignmentType: balance === 0 ? 'center' : 'right',
-          }),
-        ],
-        height: { value: `${0.8}cm` },
-      });
+  // Sorting by balance
+  const usageRecordsBalanceSorted = usageRecords.sort(
+    (a, b) => a.balance - b.balance
+  );
+
+  // Creating new usage records with corrected dates variations
+  const sortedUsageRecords = usageRecordsDateSorted.map((record, i) => {
+    return { ...record, balance: usageRecordsBalanceSorted[i].balance };
+  });
+
+  // Write usage records in the word
+  return sortedUsageRecords.map((record) => {
+    const {
+      dateTaken,
+      issueVoucherNumber = '',
+      quantityTaken,
+      takenBy,
+      balance,
+    } = record;
+    // const balance = receivedQuantity - quantityTaken;
+
+    return new TableRow({
+      children: [
+        // DATE
+        writeCell({ textValue: formatDate(dateTaken) }),
+        // RECEIPT OR ISSUE VOUCHER No.
+        writeCell({ textValue: issueVoucherNumber }),
+        // RECEIVED FROM OR ISSUE TO
+        writeCell({ textValue: takenBy }),
+        // RECEIPTS
+        writeCell({}),
+        writeCell({}),
+        writeCell({}),
+        // ISSUES
+        writeCell({ textValue: quantityTaken }),
+        writeCell({
+          textValue: formatCurrency(unitPrice),
+          alignmentType: 'right',
+        }),
+        writeCell({
+          textValue: formatCurrency(unitPrice * quantityTaken),
+          alignmentType: 'right',
+        }),
+        // BALANCE
+        writeCell({ textValue: balance === 0 ? '-' : balance }),
+        writeCell({
+          textValue: balance === 0 ? '-' : formatCurrency(unitPrice * balance),
+          alignmentType: balance === 0 ? 'center' : 'right',
+        }),
+      ],
+      height: { value: `${0.8}cm` },
     });
+  });
 
   // const itemValue = +unitPrice * +receivedQuantity;
 
