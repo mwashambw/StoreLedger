@@ -12,14 +12,18 @@ exports.issueRow = (item) => {
 
   // Sorting by balance
   const usageRecordsBalanceSorted = usageRecords.sort(
-    (a, b) => a.balance - b.balance
+    (a, b) => b.balance - a.balance
   );
+
+  // console.log(usageRecordsBalanceSorted);
 
   // Creating new usage records with corrected dates variations
   const sortedUsageRecords = usageRecordsDateSorted.map((record, i) => {
-    return { ...record, balance: usageRecordsBalanceSorted[i].balance };
+    // Strips out mongoose internal fields
+    const cleanObj = record.toObject();
+    return { ...cleanObj, balance: usageRecordsBalanceSorted[i].balance };
   });
-
+  // console.log(sortedUsageRecords);
   // Write usage records in the word
   return sortedUsageRecords.map((record) => {
     const {
