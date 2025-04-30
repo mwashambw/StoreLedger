@@ -6,12 +6,12 @@ const { writeCell } = require('./writeCell');
 exports.issueRow = (item) => {
   const { usageRecords, receivedQuantity, unitPrice } = item;
   // Sorting by date
-  const usageRecordsDateSorted = usageRecords.sort(
+  const usageRecordsDateSorted = [...usageRecords].sort(
     (a, b) => new Date(a.dateTaken) - new Date(b.dateTaken)
   );
 
   // Sorting by balance
-  const usageRecordsBalanceSorted = usageRecords.sort(
+  const usageRecordsBalanceSorted = [...usageRecords].sort(
     (a, b) => b.balance - a.balance
   );
 
@@ -21,7 +21,11 @@ exports.issueRow = (item) => {
   const sortedUsageRecords = usageRecordsDateSorted.map((record, i) => {
     // Strips out mongoose internal fields
     const cleanObj = record.toObject();
-    return { ...cleanObj, balance: usageRecordsBalanceSorted[i].balance };
+    return {
+      ...cleanObj,
+      balance: usageRecordsBalanceSorted[i].balance,
+      quantityTaken: usageRecordsBalanceSorted[i].quantityTaken,
+    };
   });
   // console.log(sortedUsageRecords);
   // Write usage records in the word
