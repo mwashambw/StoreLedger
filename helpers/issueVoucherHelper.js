@@ -10,6 +10,11 @@ const fs = require('fs');
 const { formatDate } = require('../utils/formatDate');
 const { generalDocumentStyle } = require('../utils/generalDocxStyle');
 
+const parseDate = (dateStr) => {
+  const [day, month, year] = dateStr.split('/').map(Number);
+  return new Date(year, month - 1, day);
+};
+
 // [
 //   {
 //     'mbao 2 X 2': [
@@ -90,8 +95,10 @@ exports.generateIssueVoucherHelper = async (project) => {
     }, []);
 
     const sortedIssueVoucher = issueVoucherHelper.sort(
-      (a, b) => new Date(Object.keys(a)[0]) - new Date(Object.keys(b)[0])
+      (a, b) => parseDate(Object.keys(a)[0]) - parseDate(Object.keys(b)[0])
     );
+
+    console.log(sortedIssueVoucher);
 
     const doc = new Document({
       ...generalDocumentStyle,
