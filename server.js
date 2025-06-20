@@ -1,4 +1,5 @@
 process.on('uncaughtException', (err) => {
+  console.log(err);
   console.log(err.name, err.message);
   console.log('UNCAUGHT EXCEPTION: Shutting down...');
   process.exit(1);
@@ -35,6 +36,7 @@ const server = app.listen(8000, () =>
 
 process.on('unhandledRejection', (err) => {
   console.log(err.name, err.message);
+  console.log(err);
   console.log('UNHANDLED REJECTION: Shutting down...');
   server.close(() => {
     process.exit(1);

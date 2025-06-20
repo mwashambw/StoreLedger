@@ -34,6 +34,10 @@ router
 
 // Storeledger
 router.route('/:id/storeledgers').get(storeLedgerController.getStoreLedger);
+// IssueVoucher
+router
+  .route('/:id/issueVoucher')
+  .get(storeLedgerController.getIssueVoucherHelper);
 // router
 //   .route('/:id/storeledgers/download')
 //   .get(storeLedgerController.downloadStoreLedger);
