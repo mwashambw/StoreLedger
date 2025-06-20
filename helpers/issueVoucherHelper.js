@@ -77,7 +77,7 @@ exports.generateIssueVoucherHelper = async (project) => {
             return {
               [Object.keys(cur)[0]]: [
                 ...Object.values(matchedDate)[0],
-                ...Object.values(accItem)[0],
+                ...Object.values(cur)[0],
               ],
             };
           }
